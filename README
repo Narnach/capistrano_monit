@@ -3,13 +3,17 @@ CapistranoMonit: A Capistrano Plugin
 
 CapistranoMonit is a Capistrano Plugin that adds functionality to setup/configure the control file for monit and adds "restart" functionality to apply those changes.
 
+This fork is maintained by Wes Oldenbeuving.
+
+Changes compared to upstream:
+* There are more options available to configure the location of mongrels.
 
 Setup
 =====
 
 Install the plugin:
 
-$ script/plugin install git://github.com/seebq/capistrano_monit.git
+$ script/plugin install git://github.com/Narnach/capistrano_monit.git
 
 CapistranoMonit requires the following variables:
 
@@ -20,9 +24,12 @@ CapistranoMonit also allows you to customize the following variables:
 
 set :monit_daemon_interval, "120"
 set :monit_alert_email, "you@example.com"
+set :mongrel_servers, 1
+set :mongrel_group, 'mongrel'
+set :mongrel_pid_dir, '/var/run/mongrel_cluster'
+set :mongrel_pid_name, 'mongrel'
 
 Simply define them in your capistrano config/deploy.rb.
-
 
 Example
 =======
