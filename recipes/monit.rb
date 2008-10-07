@@ -4,6 +4,9 @@ set :domain, "yourserver.com"
 set :mongrel_port, "8000"
 set :monit_daemon_interval, "120"
 set :monit_alert_email, "you@example.com"
+set :mongrel_group, 'mongrel'
+set :mongrel_pid_dir, '/var/run/mongrel_cluster'
+set :mongrel_pid_name, 'mongrel'
 
 namespace :monit do
   desc "Setup monit daemon monitoring"
@@ -36,10 +39,10 @@ EOF
 
     (0..mongrel_servers-1).each do |server|
       monit_mongrel_configuration +=<<-EOF
-check process mongrel-#{mongrel_port + server} with pidfile /var/run/mongrel_cluster/#{application}.#{mongrel_port + server}.pid
-  group mongrel
-  start program = "/usr/bin/mongrel_rails cluster::start -C /etc/mongrel_cluster/#{application}.conf --only #{mongrel_port + server} --clean"
-  stop program  = "/usr/bin/mongrel_rails cluster::stop -C /etc/mongrel_cluster/#{application}.conf --only #{mongrel_port + server} --force --clean"
+check process mongrel-#{mongrel_port + server} with pidfile #{mongrel_pid_dir}/#{mongrel_pid_name}.#{mongrel_port + server}.pid
+  group #{mongrel_group}
+  start program = "/usr/bin/mongrel_rails cluster::start -C /etc/mongrel_cluster/#{application}.yml --only #{mongrel_port + server} --clean"
+  stop program  = "/usr/bin/mongrel_rails cluster::stop -C /etc/mongrel_cluster/#{application}.yml --only #{mongrel_port + server} --force --clean"
   if totalmem > 100.0 MB for 5 cycles then restart
   # if failed port #{mongrel_port + server} protocol http with timeout 45 seconds then restart
 
