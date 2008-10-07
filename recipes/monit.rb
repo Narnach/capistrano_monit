@@ -4,6 +4,7 @@ set :domain, "yourserver.com"
 set :mongrel_port, "8000"
 set :monit_daemon_interval, "120"
 set :monit_alert_email, "you@example.com"
+set :mongrel_servers, 1
 set :mongrel_group, 'mongrel'
 set :mongrel_pid_dir, '/var/run/mongrel_cluster'
 set :mongrel_pid_name, 'mongrel'
